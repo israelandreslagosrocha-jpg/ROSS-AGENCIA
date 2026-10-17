@@ -93,3 +93,8 @@ body:has(dialog[open]) .whatsapp-float{visibility:hidden}
 .booking-note{font-size:10px;color:#c4aec9;max-width:920px;margin:25px 0 0;line-height:1.9}
 @media(max-width:1000px){.booking-grid{gap:16px}.booking-body{padding:20px}.booking-body h3{font-size:43px}.booking-art{height:195px;padding:18px}.booking-art>strong{font-size:62px}.booking-spark{font-size:85px}}
 @media(max-width:700px){.booking-grid{grid-template-columns:1fr}.booking-art{height:190px}.booking-body h3{font-size:48px}.booking-body>.button{font-size:12px}.booking-bottom{display:block}.booking-bottom .text-link{margin-top:18px}.booking-preview,.booking-note{font-size:11px}}
+/* Ficha pública del proveedor: el estado se consulta en la fuente oficial. */
+.supplier-section{display:grid;grid-template-columns:280px minmax(0,1fr);gap:55px;align-items:center;background:#f7f7f7;color:var(--ink);padding:55px 6.5%;border-top:1px solid #d6d3d0}
+.supplier-logo{display:block;max-width:280px;line-height:0}.supplier-logo img{display:block;width:100%;height:auto}
+.supplier-section .eyebrow{font-size:9px;margin-bottom:18px}.supplier-section h2{font-size:48px;margin-bottom:22px}.supplier-section p:not(.eyebrow){font-size:12px;margin-bottom:0;overflow-wrap:anywhere}.supplier-section .supplier-note{font-size:10px;color:#625969;margin-top:16px;max-width:540px}
+@media(max-width:700px){.supplier-section{grid-template-columns:1fr;gap:10px;padding:35px 6%}.supplier-logo{max-width:230px;justify-self:center}.supplier-section h2{font-size:42px}}
