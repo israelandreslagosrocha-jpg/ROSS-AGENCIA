@@ -106,3 +106,4 @@ body:has(dialog[open]) .whatsapp-float{visibility:hidden}
 @media(max-width:700px){.cultural-brands{flex-wrap:wrap;gap:18px}.cultural-banner{flex-basis:100%}.ministry-logo{width:100px;height:100px}}
 @media(prefers-reduced-motion:reduce){.cultural-banner{display:none}}
 .cultural-banner{aspect-ratio:706/280;overflow:hidden}.cultural-banner img{height:100%;object-fit:cover;object-position:top}
+.community-partner{border-top:1px solid #d6d3d0;margin-top:25px;padding-top:22px;max-width:620px}.supplier-section .community-partner-label{font-size:10px;letter-spacing:1px;color:#9e175a;font-weight:800;margin-bottom:10px}.community-partner h3{font:700 28px/1.1 var(--heading);margin-bottom:12px}.supplier-section .community-partner>p:last-child{font-size:12px;color:#625969;line-height:1.8}
