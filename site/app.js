@@ -8,11 +8,27 @@ menuButton.addEventListener('click', () => {
   menu.classList.toggle('is-open', open);
 });
 menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
-document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
+    closeMenu();
+    menuButton.focus();
+  }
+});
+document.addEventListener('click', event => {
+  if (!menu.contains(event.target) && !menuButton.contains(event.target)) closeMenu();
+});
+matchMedia('(min-width: 901px)').addEventListener('change', closeMenu);
 const { services: serviceDetails, projects: projectDetails, event: featuredEvent } = window.ROSS_CONTENT;
 const dialog = document.querySelector('#detail-dialog');
 let selectedService = '';
+function safeExternalUrl(value, hosts) {
+  try {
+    const url = new URL(value);
+    return url.protocol === 'https:' && hosts.includes(url.hostname) && !url.username && !url.password ? url.href : null;
+  } catch { return null; }
+}
 function showDetail(detail, label, service = '') {
+  if (!detail || dialog.open) return;
   selectedService = service;
   document.querySelector('#detail-label').textContent = label;
   document.querySelector('#detail-title').textContent = detail.title;
@@ -24,12 +40,14 @@ function showDetail(detail, label, service = '') {
   document.querySelector('#detail-note').textContent = detail.note || 'Propuesta de contenido: categorías y servicios específicos por validar con ROSS.';
   const cta = document.querySelector('#detail-cta');
   cta.firstChild.textContent = detail.cta?.label || 'Hablemos de esta idea ';
-  cta.href = detail.cta?.url || '#cotiza';
-  cta.target = detail.cta ? '_blank' : '_self';
-  cta.rel = detail.cta ? 'noopener noreferrer' : '';
+  const ticketUrl = safeExternalUrl(detail.cta?.url, ['www.passline.com']);
+  cta.href = ticketUrl || '#cotiza';
+  cta.target = ticketUrl ? '_blank' : '_self';
+  cta.rel = ticketUrl ? 'noopener noreferrer' : '';
   const source = document.querySelector('#detail-source');
-  source.href = detail.source;
-  source.hidden = !detail.source;
+  const sourceUrl = safeExternalUrl(detail.source, ['www.instagram.com']);
+  source.href = sourceUrl || '#cotiza';
+  source.hidden = !sourceUrl;
   dialog.showModal();
 }
 document.querySelectorAll('[data-service]').forEach(button => button.addEventListener('click', () => showDetail(serviceDetails[button.dataset.service], 'EXPERIENCIAS / ROSS', button.dataset.service)));
@@ -61,5 +79,6 @@ if (eventHasEnded) {
   document.querySelector('.agenda-location').hidden = true;
   document.querySelector('.agenda-date').hidden = true;
   document.querySelector('.agenda-poster').hidden = true;
+  document.querySelector('.hero-agenda-link').hidden = true;
 }
 document.querySelector('#event-details').addEventListener('click', () => showDetail(featuredEvent, 'AGENDA / 24 OCTUBRE 2026'));

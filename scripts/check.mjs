@@ -30,3 +30,20 @@ for (const detail of [...Object.values(content.services), ...Object.values(conte
 const ticket = new URL(content.event.cta.url);
 if (ticket.protocol !== 'https:' || ticket.hostname !== 'www.passline.com') throw new Error('Destino de entradas inválido');
 console.log('Comprobadas fichas del catálogo, referencias y fecha de agenda.');
+
+// Invariantes de seguridad de esta demo estática, sin backend ni conexiones.
+const policy = html.match(/http-equiv="Content-Security-Policy" content="([^"]+)"/)?.[1];
+for (const directive of ["default-src 'none'", "script-src 'self'", "connect-src 'none'", "form-action 'none'", "base-uri 'none'", "object-src 'none'"]) {
+  if (!policy?.split(';').map(value => value.trim()).includes(directive)) throw new Error(`CSP incompleta: ${directive}`);
+}
+if (/\son\w+\s*=/i.test(html) || /<script\b(?![^>]*\bsrc=)[^>]*>/i.test(html)) throw new Error('Código inline no permitido');
+if (!/<form\b[^>]*method="post"/.test(html)) throw new Error('El formulario demo no debe usar GET');
+for (const tag of html.matchAll(/<a\b[^>]*>/g)) {
+  if (/target="_blank"/.test(tag[0]) && !/rel="noopener noreferrer"/.test(tag[0])) throw new Error('Enlace externo sin aislamiento');
+}
+for (const match of html.matchAll(/(?:href|src)="([^"#]+)"/g)) {
+  if (/^(?:javascript|data|http):/i.test(match[1])) throw new Error('Recurso o enlace inseguro');
+}
+const appSource = await readFile(path.join(root, 'app.js'), 'utf8');
+if (/\.innerHTML\s*=|\beval\s*\(|document\.write\s*\(/.test(appSource)) throw new Error('Inserción ejecutable no permitida');
+console.log('Comprobados CSP de demo, formulario sin GET, aislamiento de enlaces y ausencia de inserciones HTML ejecutables.');
