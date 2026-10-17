@@ -1,0 +1,12 @@
+{
+  "name": "ross-agencia",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Propuesta visual local para ROSS AGENCIA — LAGOSOLUTIONS",
+  "type": "module",
+  "scripts": {
+    "dev": "python3 -m http.server 4173 --bind 127.0.0.1 --directory site",
+    "check": "node --check site/content.js && node --check site/app.js && node scripts/check.mjs",
+    "build": "node scripts/build.mjs"
+  }
+}

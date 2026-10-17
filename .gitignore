@@ -1,0 +1,15 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+node_modules/
+.next/
+dist/
+out/
+coverage/
+playwright-report/
+test-results/
+*.log
+backups/
+# Capturas de investigación locales; no publicar en el repositorio por defecto.
+Captura de pantalla *.png
