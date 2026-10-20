@@ -6,7 +6,7 @@ window.ROSS_CONTENT = Object.freeze({
     cta: { label: 'Consultar entradas en Passline ', url: 'https://www.passline.com/eventos/9-aniversario-penis-del-sur-la-gran-fiesta' },
     expiresAt: '2026-10-25T04:30:00-03:00',
     copy: 'Un encuentro de música en vivo en Queule, anunciado en los canales de ROSS para el 24 de octubre de 2026.',
-    items: ['Sábado 24 de octubre de 2026 · desde las 22:00 h', 'Queule, comuna de Toltén, La Araucanía', 'Los Peñis del Sur · DJ Take · animación de Dani Valenzuela', 'Artista invitado anunciado: Colelo — Identidad Mapuche', 'Actividad para mayores de 18 años'],
+    items: ['Sábado 24 de octubre de 2026 · desde las 22:00 h', 'Queule, comuna de Toltén, La Araucanía', 'Los Peñis del Sur · DJ Take · animación de Daniela Valenzuela', 'Artista invitado anunciado: Colelo — Identidad Mapuche', 'Actividad para mayores de 18 años'],
     source: 'https://www.instagram.com/rossagencia/p/Def8dS8Fs2k/',
     note: 'Confirma recinto, programación, condiciones y disponibilidad en Passline antes de comprar. La venta se realiza en la plataforma externa; esta web no procesa pagos.'
   },

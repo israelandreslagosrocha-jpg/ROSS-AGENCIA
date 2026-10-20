@@ -139,3 +139,37 @@ new ResizeObserver(sizeTicker).observe(tickerWindow);
 tickerMotion.addEventListener('change', sizeTicker);
 document.fonts.ready.then(sizeTicker);
 sizeTicker();
+
+const eventSlides = document.querySelector('.event-slides');
+const eventFigures = [...eventSlides.querySelectorAll('.event-slide')];
+const eventPrev = document.querySelector('.event-prev');
+const eventNext = document.querySelector('.event-next');
+const eventPosition = document.querySelector('.event-position');
+const eventEnlarge = document.querySelector('.event-enlarge');
+let eventIndex = 0;
+function updateEventCarousel() {
+  if (!eventSlides.clientWidth) return;
+  eventIndex = Math.max(0, Math.min(eventFigures.length - 1, Math.round(eventSlides.scrollLeft / eventSlides.clientWidth)));
+  eventPrev.disabled = eventIndex === 0;
+  eventNext.disabled = eventIndex === eventFigures.length - 1;
+  eventPosition.textContent = `${eventIndex + 1} / ${eventFigures.length}`;
+  const image = eventFigures[eventIndex].querySelector('img');
+  eventEnlarge.href = image.getAttribute('src').replace('-640.webp', '-1200.webp');
+  eventEnlarge.setAttribute('aria-label', `Ampliar: ${eventFigures[eventIndex].querySelector('figcaption').textContent}`);
+}
+function moveEventCarousel(delta) {
+  const next = Math.max(0, Math.min(eventFigures.length - 1, eventIndex + delta));
+  eventSlides.scrollTo({left: next * eventSlides.clientWidth, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
+}
+eventPrev.addEventListener('click', () => moveEventCarousel(-1));
+eventNext.addEventListener('click', () => moveEventCarousel(1));
+eventSlides.addEventListener('scroll', updateEventCarousel, {passive: true});
+eventSlides.addEventListener('keydown', event => {
+  if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+    event.preventDefault(); moveEventCarousel(event.key === 'ArrowRight' ? 1 : -1);
+  }
+});
+new ResizeObserver(() => {
+  if (!eventSlides.clientWidth) return;
+  eventSlides.scrollTo({left:eventIndex * eventSlides.clientWidth, behavior:'instant'});
+}).observe(eventSlides);

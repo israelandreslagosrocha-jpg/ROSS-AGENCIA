@@ -156,3 +156,17 @@ body:has(dialog[open]) .whatsapp-float{visibility:hidden}
 @keyframes ticker-sweep{0%,5%{transform:translateX(0)}95%,100%{transform:translateX(var(--ticker-travel,0px))}}
 @media(max-width:700px){.ticker-track{font-size:28px;gap:20px;padding:0 20px}}
 @media(prefers-reduced-motion:reduce){.ticker.is-moving .ticker-track{animation:none;transform:none}.ticker.is-moving .ticker-window{overflow-x:auto}.ticker-toggle{display:none}}
+/* Afiches completos, con avance manual y deslizamiento táctil. */
+.agenda-poster.event-carousel{display:block;min-width:0;min-height:0;max-height:none;height:auto;width:100%;max-width:400px;align-self:center;justify-self:center;overflow:visible}
+.event-slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:thin;overscroll-behavior-x:contain;border-radius:8px;background:#14090c;touch-action:pan-x pan-y}
+.event-slide{flex:0 0 100%;min-width:0;margin:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative}
+.event-slide img{display:block;width:100%;height:auto;aspect-ratio:3/4;object-fit:contain;background:#14090c}
+.event-slide figcaption{font-size:11px;line-height:1.5;padding:12px 14px;color:#fff;min-height:42px}
+.event-carousel-controls{display:flex;align-items:center;justify-content:center;gap:22px;padding-top:12px}
+.event-carousel-controls button{width:44px;min-height:44px;border:1px solid #ff849d;background:#290f17;color:#fff;border-radius:50%;font-size:21px}
+.event-carousel-controls button:disabled{opacity:.35}
+.event-position{font-size:12px;font-weight:800;color:#fff}
+.event-enlarge{display:block;text-align:center;min-height:44px;align-content:center;font-size:11px;text-decoration:underline;text-underline-offset:4px;margin-top:4px}
+@media(max-width:700px){.agenda-poster.event-carousel{max-width:400px;width:100%}}
+@media(prefers-reduced-motion:reduce){.event-slides{scroll-behavior:auto}}
+.event-slides{scrollbar-width:none}.event-slides::-webkit-scrollbar{display:none}
