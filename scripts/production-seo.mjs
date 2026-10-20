@@ -14,6 +14,7 @@ export function productionSeo(html, file = "index.html") {
   };
   html = html.replace(/<div class="preview-bar">[\s\S]*?<\/div>/, '')
     .replace('ROSS AGENCIA · VISTA PREVIA', 'ROSS AGENCIA')
+    .replace('© 2026 ROSS AGENCIA · Propuesta visual', '© 2026 ROSS AGENCIA')
     .replace('Material de Instagram, organizado para esta propuesta. Cada ficha distingue lo publicado de los detalles pendientes de confirmación.', 'Experiencias compartidas en los canales de ROSS. Consulta el contexto y los detalles de cada encuentro.')
     .replace('<meta name="robots" content="noindex, nofollow">','<meta name="robots" content="index, follow">')
     .replace(/<title>[^<]*<\/title>/,`<title>${title}</title>`)

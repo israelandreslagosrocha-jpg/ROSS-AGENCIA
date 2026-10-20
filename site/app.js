@@ -67,7 +67,7 @@ quoteForm.addEventListener('submit', event => {
   event.preventDefault();
   const status = document.querySelector('#form-status');
   try {
-    const url = window.ROSS_QUOTE.build(new FormData(quoteForm));
+    const url = window.ROSS_QUOTE.build(new FormData(quoteForm), window.ROSS_ATTRIBUTION.read(window.location.search));
     quoteLink.href = url;
     quoteLink.hidden = false;
     window.open(url, '_blank', 'noopener,noreferrer');

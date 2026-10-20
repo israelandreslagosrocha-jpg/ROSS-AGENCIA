@@ -12,7 +12,7 @@ assert.ok((await readFile('dist-production/robots.txt','utf8')).includes('Sitema
 assert.ok((await readFile('dist-production/sitemap.xml','utf8')).includes('<loc>https://rossagencia.cl/</loc>'));
 // La preparación de producción no debe abrir el preview a indexación.
 assert.ok((await readFile('site/index.html','utf8')).includes('noindex, nofollow'));
-console.log('SEO de paquete oficial comprobado; preview sigue sin indexación. No hay despliegue a dominio.');
+console.log('SEO del paquete oficial comprobado; fuente local de preview conserva noindex.');
 const {readdir,access} = await import('node:fs/promises');
 const pages=(await readdir('site')).filter(file=>file.endsWith('.html'));
 assert.ok(pages.length<=10);
@@ -27,7 +27,7 @@ for(const page of pages){
   const url=match[1];
   if(!url.includes(':')) await access('site/'+url.split('#')[0]);
  }
- if(page!=='privacidad.html'){
+ if(!['privacidad.html','404.html'].includes(page)){
   const url='https://rossagencia.cl'+(page==='index.html'?'/':'/'+page);
   assert.ok(source.includes('noindex, nofollow'));
   assert.ok(built.includes(`rel="canonical" href="${url}"`));
@@ -36,7 +36,7 @@ for(const page of pages){
  assert.ok(!/\son\w+\s*=/i.test(source));
  assert.ok(!/\b(?:api[_-]?key|password|secret)\s*[:=]/i.test(source));
 }
-assert.equal((sitemap.match(/<loc>/g)||[]).length,pages.length-1);
+assert.equal((sitemap.match(/<loc>/g)||[]).length,pages.length-2);
 console.log(`${pages.length} páginas: límite, títulos únicos, recursos locales, canonical, sitemap y noindex de preview comprobados.`);
 for(const page of pages){
  const source=await readFile('site/'+page,'utf8');
