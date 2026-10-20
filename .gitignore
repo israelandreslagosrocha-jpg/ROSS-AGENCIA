@@ -13,3 +13,6 @@ test-results/
 backups/
 # Capturas de investigación locales; no publicar en el repositorio por defecto.
 Captura de pantalla *.png
+
+# Paquete oficial preparado localmente; nunca se publica con el workflow de preview.
+dist-production/

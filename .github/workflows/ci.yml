@@ -21,6 +21,8 @@ jobs:
         run: npm run check
       - name: Empaquetar sitio estático
         run: npm run build
+      - name: Verificar paquete SEO para publicación futura
+        run: npm run build:production
       - name: Guardar paquete de vista previa
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

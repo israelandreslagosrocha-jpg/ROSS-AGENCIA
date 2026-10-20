@@ -13,6 +13,7 @@
   <link rel="preload" href="assets/barlow-condensed-bold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="styles.css">
   <script src="content.js" defer></script>
+  <script src="quote.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -91,13 +92,15 @@
 <section class="contact section" id="cotiza" aria-labelledby="contact-title">
   <div class="contact-copy"><p class="eyebrow"><span class="line"></span> 04 / EL PRÓXIMO MOMENTO</p><h2 id="contact-title">TODO EMPIEZA<br>CON UN<br><span>“¿Y SI…?”</span></h2><p>Cuéntanos tu idea.<br>Empecemos a darle forma.</p><div class="contact-directory" aria-label="Contactos de ROSS Agencia"><a class="contact-whatsapp" href="https://wa.me/56920159948" target="_blank" rel="noopener noreferrer"><span class="contact-channel-label">WHATSAPP / CONTACTO PRINCIPAL</span><strong>+56 9 2015 9948</strong><span class="contact-channel-arrow" aria-hidden="true">↗</span></a><a href="mailto:contacto@rossagencia.cl"><span class="contact-channel-label">ESCRÍBENOS</span><strong>contacto@rossagencia.cl</strong><span class="contact-channel-arrow" aria-hidden="true">↗</span></a><div class="contact-phones"><a href="tel:+56920159948">Llamar al +56 9 2015 9948 ↗</a><a href="tel:+56976784014">Teléfono adicional: +56 9 7678 4014 ↗</a></div></div></div>
   <form id="quote-form" class="quote-form" method="post">
-    <p class="form-demo"><span class="status-dot"></span> Formulario de demostración · no envía datos</p>
-    <div class="form-grid"><label>Tu nombre<input name="nombre" autocomplete="off" maxlength="80" placeholder="¿Cómo te llamas?" required></label><label>Correo electrónico<input type="email" name="correo" autocomplete="off" maxlength="120" placeholder="hola@tuempresa.cl" required></label></div>
+    <p class="form-demo"><span class="status-dot"></span> COTIZACIÓN DIRECTA POR WHATSAPP</p>
+    <label>Tu nombre<input name="nombre" autocomplete="given-name" maxlength="80" placeholder="¿Cómo te llamas?" required></label>
     <label>¿Qué tienes en mente?<select name="tipo" required><option value="">Elige un tipo de evento</option><option value="corporativos">Empresa o institución</option><option value="infantiles">Infantil o familiar</option><option value="educacion">Experiencia educativa / Look Terra</option><option value="espectaculos">Show o espectáculo</option><option value="otro">Quiero explorar una idea</option></select></label>
     <div class="form-grid"><label>Fecha estimada <span>(opcional)</span><input type="date" name="fecha"></label><label>Ciudad o comuna <span>(opcional)</span><input name="ciudad" maxlength="80" placeholder="¿Dónde lo imaginas?"></label></div>
     <label>Cuéntanos un poco más<textarea name="mensaje" rows="3" maxlength="1500" placeholder="Tu idea, el público, los detalles que importan…" required></textarea></label>
-    <p class="form-note">Puedes recorrer la propuesta sin usar datos personales reales. Esta demo no guarda ni transmite información.</p>
-    <button class="button submit-button" type="submit">Probar solicitud de cotización <span aria-hidden="true">↗</span></button>
+    <p class="form-note">Al continuar, se abrirá WhatsApp con los datos que escribas. Revisa el mensaje y decide si enviarlo. Este formulario no guarda solicitudes en la web. Evita incluir datos sensibles.</p>
+    <button class="button submit-button" type="submit">Continuar en WhatsApp <span aria-hidden="true">↗</span></button>
+    <a id="quote-whatsapp-link" class="text-link" href="https://wa.me/56920159948" target="_blank" rel="noopener noreferrer" hidden>Abrir mi consulta en WhatsApp ↗</a>
+    <noscript><p>Para preparar tu mensaje activa JavaScript o utiliza el botón de WhatsApp de contacto.</p></noscript>
     <p id="form-status" class="form-status" role="status" tabindex="-1"></p>
   </form>
 </section>

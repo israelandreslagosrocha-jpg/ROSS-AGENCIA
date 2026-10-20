@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {readFile} from 'node:fs/promises';
+const context = { window: {}, URL };
+vm.runInNewContext(await readFile('site/quote.js','utf8'), context, {timeout:1000});
+const build = context.window.ROSS_QUOTE.build;
+const values = new Map([['nombre','Prueba QA'],['tipo','corporativos'],['mensaje','Evento & música + reuniones? #1'],['correo','no-incluir@example.com']]);
+const url = new URL(build(values));
+assert.equal(url.origin, 'https://wa.me');
+assert.equal(url.pathname, '/56920159948');
+assert.ok(url.searchParams.get('text').includes('Evento & música + reuniones? #1'));
+assert.ok(!url.href.includes('no-incluir'));
+assert.ok(!url.searchParams.get('text').includes('undefined'));
+assert.throws(()=>build(new Map()));
+assert.throws(()=>build(new Map([...values,['tipo','javascript:alert(1)']])));
+const long = new URL(build(new Map([...values,['mensaje','a'.repeat(2000)]]))).searchParams.get('text');
+assert.equal(long.split('Mi idea: ')[1].length,1500);
+console.log('Cotización: destino fijo, codificación, campos requeridos, límites y correo excluido verificados.');

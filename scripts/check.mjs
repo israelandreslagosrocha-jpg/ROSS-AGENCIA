@@ -10,8 +10,8 @@ for (const match of html.matchAll(/href="#([^"]+)"/g)) if (!ids.includes(match[1
 const local = [...html.matchAll(/(?:href|src)="([^"#]+)"/g)].map(match => match[1]).filter(url => !url.includes(':'));
 const fonts = [...css.matchAll(/url\('([^']+)'\)/g)].map(match => match[1]);
 for (const file of new Set([...local, ...fonts])) await access(path.join(root, file));
-if (!html.includes('noindex, nofollow') || !html.includes('no envía datos')) throw new Error('Falta identificación de demo');
-console.log('Comprobados recursos locales, anclas, IDs y señalización de demo.');
+if (!html.includes('noindex, nofollow') || !html.includes('Este formulario no guarda solicitudes en la web')) throw new Error('Falta identificación de demo');
+console.log('Comprobados recursos locales, anclas, IDs y señalización de preview y cotización.');
 
 const contentSource = await readFile(path.join(root, 'content.js'), 'utf8');
 const context = { window: {} };

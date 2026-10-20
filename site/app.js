@@ -60,10 +60,21 @@ filters.forEach(button => button.addEventListener('click', () => {
   filters.forEach(filter => { const active = filter === button; filter.classList.toggle('active', active); filter.setAttribute('aria-pressed', String(active)); });
   document.querySelectorAll('[data-category]').forEach(project => { project.hidden = button.dataset.filter !== 'todos' && project.dataset.category !== button.dataset.filter; });
 }));
-document.querySelector('#quote-form').addEventListener('submit', event => {
+const quoteForm = document.querySelector('#quote-form');
+const quoteLink = document.querySelector('#quote-whatsapp-link');
+quoteForm.addEventListener('input', () => { quoteLink.hidden = true; quoteLink.href = 'https://wa.me/56920159948'; document.querySelector('#form-status').textContent = ''; });
+quoteForm.addEventListener('submit', event => {
   event.preventDefault();
   const status = document.querySelector('#form-status');
-  status.textContent = 'Recorrido de demostración completado. No se ha enviado ni guardado una cotización. La conexión de contacto se habilitará en la versión funcional.';
+  try {
+    const url = window.ROSS_QUOTE.build(new FormData(quoteForm));
+    quoteLink.href = url;
+    quoteLink.hidden = false;
+    window.open(url, '_blank', 'noopener,noreferrer');
+    status.textContent = 'Tu mensaje está preparado para WhatsApp. Revísalo y pulsa enviar allí. Si no se abrió, utiliza el enlace de arriba. La web no ha guardado ni enviado una solicitud.';
+  } catch (error) {
+    status.textContent = error.message;
+  }
   status.focus();
 });
 
