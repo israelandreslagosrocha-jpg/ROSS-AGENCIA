@@ -1,5 +1,5 @@
 import vm from 'node:vm';
-import { readFile, access } from 'node:fs/promises';
+import { readFile, access, stat } from 'node:fs/promises';
 import path from 'node:path';
 const root = path.resolve('site');
 const html = await readFile(path.join(root, 'index.html'), 'utf8');
@@ -47,3 +47,12 @@ for (const match of html.matchAll(/(?:href|src)="([^"#]+)"/g)) {
 const appSource = await readFile(path.join(root, 'app.js'), 'utf8');
 if (/\.innerHTML\s*=|\beval\s*\(|document\.write\s*\(/.test(appSource)) throw new Error('Inserción ejecutable no permitida');
 console.log('Comprobados CSP de demo, formulario sin GET, aislamiento de enlaces y ausencia de inserciones HTML ejecutables.');
+
+const videoTag = html.match(/<video\b[^>]*>/)?.[0];
+if (!videoTag || /\ssrc=|\sautoplay(?:\s|>|=)/.test(videoTag) || !videoTag.includes('preload="none"')) throw new Error('El video debe cargar bajo demanda, sin autoplay');
+if (!policy.includes("media-src 'self'")) throw new Error('Falta política de medios locales');
+if ((await stat(path.join(root, 'assets/ross-eventos-video.mp4'))).size > 20_000_000) throw new Error('Video supera presupuesto de 20 MB');
+for (const image of ['ross-campanas.webp', 'ross-eventos.webp', 'ross-instagram.webp', 'ross-musica.webp']) {
+  if ((await stat(path.join(root, 'assets', image))).size > 400_000) throw new Error(`Imagen supera presupuesto: ${image}`);
+}
+console.log('Comprobados carga de video bajo demanda y presupuestos de medios.');

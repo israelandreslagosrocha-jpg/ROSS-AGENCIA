@@ -82,3 +82,22 @@ if (eventHasEnded) {
   document.querySelector('.hero-agenda-link').hidden = true;
 }
 document.querySelector('#event-details').addEventListener('click', () => showDetail(featuredEvent, 'AGENDA / 24 OCTUBRE 2026'));
+
+const filmPlay = document.querySelector('#film-play');
+const film = document.querySelector('#ross-film');
+filmPlay.addEventListener('click', async () => {
+  film.src = film.dataset.src;
+  film.hidden = false;
+  filmPlay.hidden = true;
+  document.querySelector('#film-status').textContent = 'Puedes pausar, ajustar el volumen o ampliar el video con sus controles.';
+  film.focus();
+  try { await film.play(); } catch {
+    document.querySelector('#film-status').textContent = 'Pulsa reproducir en los controles del video para comenzar.';
+  }
+});
+film.addEventListener('error', () => {
+  document.querySelector('#film-status').textContent = 'No se pudo cargar el video. Comprueba tu conexión y vuelve a intentarlo.';
+  film.removeAttribute('src');
+  film.hidden = true;
+  filmPlay.hidden = false;
+});
