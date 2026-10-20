@@ -1,4 +1,4 @@
-import { cp, mkdir, rm, readFile, writeFile } from 'node:fs/promises';
+import { cp, mkdir, rm, readFile, writeFile, readdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { productionSeo } from './production-seo.mjs';
 const production = process.argv.includes('--production');
@@ -6,20 +6,23 @@ const target = new URL(production ? '../dist-production/' : '../dist/', import.m
 await rm(target, { recursive: true, force: true });
 await mkdir(target, { recursive: true });
 await cp(new URL('../site/', import.meta.url), target, { recursive: true });
-const index = new URL('index.html', target);
-let html = await readFile(index, 'utf8');
+const files = (await readdir(target)).filter(file => file.endsWith('.html'));
+const hashes = {};
 for (const asset of ['styles.css', 'content.js', 'quote.js', 'app.js']) {
-  const hash = createHash('sha256').update(await readFile(new URL(asset, target))).digest('hex').slice(0, 12);
-  html = html.replaceAll(`"${asset}"`, `"${asset}?v=${hash}"`);
+ hashes[asset] = createHash('sha256').update(await readFile(new URL(asset,target))).digest('hex').slice(0,12);
 }
-if (production) {
-  const prepared = productionSeo(html);
-  html = prepared.html;
-  await writeFile(new URL('robots.txt', target), prepared.robots);
-  await writeFile(new URL('sitemap.xml', target), prepared.sitemap);
+const urls=[];
+for (const file of files) {
+ let html=await readFile(new URL(file,target),'utf8');
+ for(const [asset,hash] of Object.entries(hashes)) html=html.replaceAll(`"${asset}"`, `"${asset}?v=${hash}"`);
+ if(production && file !== 'privacidad.html') {
+  html=productionSeo(html,file).html;
+  urls.push('https://rossagencia.cl'+(file === 'index.html' ? '/' : '/'+file));
+ }
+ await writeFile(new URL(file,target),html);
 }
-await writeFile(index, html);
-const privacyPath = new URL('privacidad.html', target);
-const cssHash = createHash('sha256').update(await readFile(new URL('styles.css', target))).digest('hex').slice(0,12);
-await writeFile(privacyPath, (await readFile(privacyPath, 'utf8')).replace('"styles.css"', `"styles.css?v=${cssHash}"`));
-console.log(production ? 'Paquete de producción preparado en dist-production/. Requiere cierre editorial, QA y autorización antes de publicar.' : 'Preview preparada en dist/ con recursos versionados y noindex.');
+if(production) {
+ await writeFile(new URL('robots.txt',target),productionSeo('').robots);
+ await writeFile(new URL('sitemap.xml',target),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+urls.map(url=>`<url><loc>${url}</loc></url>`).join('')+'</urlset>');
+}
+console.log(production ? 'Paquete oficial preparado; pendiente de cierre editorial, QA y autorización.' : 'Preview preparada con noindex y recursos versionados.');
