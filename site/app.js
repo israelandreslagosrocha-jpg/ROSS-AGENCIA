@@ -112,3 +112,30 @@ film.addEventListener('error', () => {
   film.hidden = true;
   filmPlay.hidden = false;
 });
+
+// Movimiento por CSS: solo cuando hay contenido fuera de la franja visible.
+const ticker = document.querySelector('.ticker');
+const tickerWindow = ticker.querySelector('.ticker-window');
+const tickerTrack = ticker.querySelector('.ticker-track');
+const tickerToggle = ticker.querySelector('.ticker-toggle');
+const tickerMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+function sizeTicker() {
+  const reduced = tickerMotion.matches;
+  tickerToggle.hidden = true;
+  const overflow = tickerTrack.scrollWidth > tickerWindow.clientWidth + 1;
+  ticker.classList.toggle('is-moving', overflow && !reduced);
+  tickerToggle.hidden = !overflow || reduced;
+  const travel = Math.max(0, tickerTrack.scrollWidth - tickerWindow.clientWidth);
+  ticker.style.setProperty('--ticker-travel', `${-travel}px`);
+  ticker.style.setProperty('--ticker-duration', `${Math.max(12, travel / 26)}s`);
+}
+tickerToggle.addEventListener('click', () => {
+  const paused = ticker.classList.toggle('is-paused');
+  tickerToggle.setAttribute('aria-pressed', String(paused));
+  tickerToggle.setAttribute('aria-label', paused ? 'Reanudar movimiento de actividades' : 'Pausar movimiento de actividades');
+  tickerToggle.querySelector('span').textContent = paused ? '▶' : 'Ⅱ';
+});
+new ResizeObserver(sizeTicker).observe(tickerWindow);
+tickerMotion.addEventListener('change', sizeTicker);
+document.fonts.ready.then(sizeTicker);
+sizeTicker();

@@ -143,3 +143,16 @@ body:has(dialog[open]) .whatsapp-float{visibility:hidden}
 .privacy-page h1{overflow-wrap:anywhere}
 .privacy-page .button-primary{display:inline-flex;background:var(--pink);color:#101011;padding:14px 22px;min-height:48px;text-decoration:none;font-weight:800;max-width:100%;white-space:normal}
 .privacy-page nav a{display:inline-block;min-height:44px;align-content:center}
+/* Tira de actividades: recorrido de ida y vuelta cuando el texto no cabe. */
+.ticker{display:flex;align-items:center;gap:0}
+.ticker>.ticker-window{display:block;flex:1;min-width:0;overflow-x:auto;padding:0;font:inherit;letter-spacing:normal;scrollbar-width:thin}
+.ticker-track{display:flex;align-items:center;justify-content:center;gap:35px;width:max-content;min-width:100%;padding:0 24px;white-space:nowrap;font:700 36px/1.3 var(--heading);letter-spacing:.03em}
+.ticker.is-moving .ticker-window{overflow:hidden}
+.ticker.is-moving .ticker-track{animation:ticker-sweep var(--ticker-duration,20s) linear infinite alternate}
+.ticker.is-paused .ticker-track,.ticker-window:focus .ticker-track{animation-play-state:paused}
+@media(hover:hover){.ticker:hover .ticker-track{animation-play-state:paused}}
+.ticker-toggle{flex:none;width:44px;min-height:44px;margin-right:8px;border:1px solid #10101166;background:transparent;color:var(--ink);border-radius:50%;font-weight:800}
+.ticker-toggle[hidden]{display:none}.ticker-toggle span{font:700 18px Arial}
+@keyframes ticker-sweep{0%,5%{transform:translateX(0)}95%,100%{transform:translateX(var(--ticker-travel,0px))}}
+@media(max-width:700px){.ticker-track{font-size:28px;gap:20px;padding:0 20px}}
+@media(prefers-reduced-motion:reduce){.ticker.is-moving .ticker-track{animation:none;transform:none}.ticker.is-moving .ticker-window{overflow-x:auto}.ticker-toggle{display:none}}
