@@ -19,4 +19,7 @@ if (production) {
   await writeFile(new URL('sitemap.xml', target), prepared.sitemap);
 }
 await writeFile(index, html);
+const privacyPath = new URL('privacidad.html', target);
+const cssHash = createHash('sha256').update(await readFile(new URL('styles.css', target))).digest('hex').slice(0,12);
+await writeFile(privacyPath, (await readFile(privacyPath, 'utf8')).replace('"styles.css"', `"styles.css?v=${cssHash}"`));
 console.log(production ? 'Paquete de producción preparado en dist-production/. Requiere cierre editorial, QA y autorización antes de publicar.' : 'Preview preparada en dist/ con recursos versionados y noindex.');
