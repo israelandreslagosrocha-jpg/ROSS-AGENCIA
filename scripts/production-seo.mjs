@@ -12,7 +12,10 @@ export function productionSeo(html, file = "index.html") {
     email:'contacto@rossagencia.cl', telephone:'+56920159948',
     sameAs:['https://www.instagram.com/rossagencia/','https://www.facebook.com/profile.php?id=61594998965992']
   };
-  html = html.replace('<meta name="robots" content="noindex, nofollow">','<meta name="robots" content="index, follow">')
+  html = html.replace(/<div class="preview-bar">[\s\S]*?<\/div>/, '')
+    .replace('ROSS AGENCIA · VISTA PREVIA', 'ROSS AGENCIA')
+    .replace('Material de Instagram, organizado para esta propuesta. Cada ficha distingue lo publicado de los detalles pendientes de confirmación.', 'Experiencias compartidas en los canales de ROSS. Consulta el contexto y los detalles de cada encuentro.')
+    .replace('<meta name="robots" content="noindex, nofollow">','<meta name="robots" content="index, follow">')
     .replace(/<title>[^<]*<\/title>/,`<title>${title}</title>`)
     .replace(/<meta name="description" content="[^"]*">/,`<meta name="description" content="${description}">`)
     .replace('</head>',`<link rel="canonical" href="${url}">\n<meta property="og:type" content="website">\n<meta property="og:locale" content="es_CL">\n<meta property="og:site_name" content="ROSS AGENCIA">\n<meta property="og:title" content="${title}">\n<meta property="og:description" content="${description}">\n<meta property="og:url" content="${url}">\n<meta property="og:image" content="${origin}/assets/ross-hero-1600.webp">\n<meta property="og:image:alt" content="Público frente a un escenario iluminado">\n<meta name="twitter:card" content="summary_large_image">\n<script type="application/ld+json">${JSON.stringify(file === "index.html" ? organization : {"@context":"https://schema.org","@type":"WebPage",name:title,url,description})}</script>\n</head>`);
